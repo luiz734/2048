@@ -6,18 +6,29 @@ var Block = preload("res://Block.tscn")
 const BLOCK_MARGIN = 20
 const BLOCK_SIZE = 64
 
+var _ignored_blocks
+
 func _ready():
 	_init_blocks()
+	_ignored_blocks = []
 
 func _input(event):
 	if event.is_action_pressed("ui_up"):
 		_handle_action(Vector2.UP)
+		_ignored_blocks.clear()
+		_add_random_block()
 	if event.is_action_pressed("ui_right"):
 		_handle_action(Vector2.RIGHT)
+		_ignored_blocks.clear()
+		_add_random_block()
 	if event.is_action_pressed("ui_down"):
 		_handle_action(Vector2.DOWN)
+		_ignored_blocks.clear()
+		_add_random_block()
 	if event.is_action_pressed("ui_left"):
 		_handle_action(Vector2.LEFT)
+		_ignored_blocks.clear()
+		_add_random_block()
 
 func _handle_action(direction):
 	var next_state = _blocks
@@ -36,8 +47,15 @@ func _handle_action(direction):
 			continue
 		if not same_col and direction.x == 0:
 			continue
-		
-		if not _is_index_valid(next_index) or _blocks[next_index]:
+		if not _is_index_valid(next_index):
+			continue
+		if _blocks[next_index]:
+			if _is_same_type(_blocks[index], _blocks[next_index]) and not _ignored_blocks.has(_blocks[index]) and not _ignored_blocks.has(_blocks[next_index]):
+				_blocks[index].queue_free()
+				_blocks[index] = null
+				_blocks[next_index].set_type(2 * int(_blocks[next_index].get_type()))
+				_ignored_blocks.push_back(_blocks[next_index])
+				_handle_action(direction)
 			continue
 			
 		_blocks[next_index] = _blocks[index]
@@ -61,7 +79,7 @@ func _calc_index(row, col):
 	return _size * row + col
 
 func _is_same_type(block_a, block_b):
-	return block_a.get_node("Label").text == block_a.get_node("Label").text
+	return block_a.get_type() == block_b.get_type()
 
 func _calc_screen_position(index):
 	var pos = Vector2.ZERO
@@ -74,10 +92,31 @@ func _calc_screen_position(index):
 func _get_index(block):
 	return _blocks.find(block)
 
+func _add_random_block():
+	if _blocks.count(null) == 0:
+		print("No more movements")
+		return
+	var rand_index = randi() % (_size * _size)
+	while _blocks[rand_index]:
+		rand_index = randi() % (_size * _size)
+	
+	var rand_type = 2
+	if randf() < 0.25:
+		rand_type = 4
+	
+	var block = Block.instance()
+	block.position = _calc_screen_position(rand_index)
+	block.name = "block %s-%s (%s)" % [_calc_row(rand_index), _calc_col(rand_index), rand_index]
+	block.set_type(rand_type)
+	add_child(block)
+	_blocks[rand_index] = block
+	
+	
+	
 func _init_blocks():
 	for i in range(_size * _size):
 		var block = null
-		if i % 3 == 0:
+		if i % 2 == 0:
 			block = Block.instance()
 			block.position = _calc_screen_position(i)
 			block.name = "block %s-%s (%s)" % [_calc_row(i), _calc_col(i), i]
