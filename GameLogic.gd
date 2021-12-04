@@ -15,23 +15,23 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("ui_up"):
 		_handle_action(Vector2.UP)
-		_ignored_blocks.clear()
-		_add_random_block()
 	if event.is_action_pressed("ui_right"):
 		_handle_action(Vector2.RIGHT)
-		_ignored_blocks.clear()
-		_add_random_block()
 	if event.is_action_pressed("ui_down"):
 		_handle_action(Vector2.DOWN)
-		_ignored_blocks.clear()
-		_add_random_block()
 	if event.is_action_pressed("ui_left"):
 		_handle_action(Vector2.LEFT)
-		_ignored_blocks.clear()
-		_add_random_block()
 
 func _handle_action(direction):
-	var next_state = _blocks
+	if $Tween.is_active():
+		return
+	var before_move = _blocks.duplicate()
+	_move_blocks(direction)
+	if not before_move == _blocks:
+		_add_random_block()
+	_ignored_blocks.clear()
+	
+func _move_blocks(direction):
 	for index in range(_size * _size):
 		if not _is_index_valid(index) or not _blocks[index]:
 			continue
@@ -40,28 +40,34 @@ func _handle_action(direction):
 		var next_pos = Vector2(col + direction.x, row + direction.y)
 		var next_index = int(_calc_index(next_pos.y, next_pos.x))
 		
-		var same_row = row == _calc_row(next_index)
-		var same_col = col == _calc_col(next_index)
+		var same_row = row == _calc_row(next_index) and direction.y == 0
+		var same_col = col == _calc_col(next_index) and direction.x == 0
 		
-		if not same_row and direction.y == 0:
-			continue
-		if not same_col and direction.x == 0:
+		if not same_row and not same_col:
 			continue
 		if not _is_index_valid(next_index):
 			continue
-		if _blocks[next_index]:
-			if _is_same_type(_blocks[index], _blocks[next_index]) and not _ignored_blocks.has(_blocks[index]) and not _ignored_blocks.has(_blocks[next_index]):
-				_blocks[index].queue_free()
-				_blocks[index] = null
-				_blocks[next_index].set_type(2 * int(_blocks[next_index].get_type()))
-				_ignored_blocks.push_back(_blocks[next_index])
-				_handle_action(direction)
-			continue
 			
-		_blocks[next_index] = _blocks[index]
-		_blocks[index] = null
-		_update_screen_pos(_blocks[next_index], next_index)
-		_handle_action(direction)
+		if _blocks[next_index]:
+			var same_type = _is_same_type(_blocks[index], _blocks[next_index])
+			var index_not_ignored = not _ignored_blocks.has(_blocks[index])
+			var next_index_not_ignored = not _ignored_blocks.has(_blocks[next_index])
+			
+			if same_type and index_not_ignored and next_index_not_ignored:
+				var pos = _calc_screen_position(next_index)
+				_blocks[index].connect("reached_other", _blocks[next_index], "double_type")
+				_blocks[index].move_and_disapear(pos)
+				_blocks[index] = null
+#				_blocks[next_index].set_type(2 * int(_blocks[next_index].get_type()))
+				_ignored_blocks.push_back(_blocks[next_index])
+				_move_blocks(direction)
+		else:
+			var pos = _calc_screen_position(next_index)
+			_blocks[index].move_to(pos)
+			_blocks[next_index] = _blocks[index]
+			_blocks[index] = null
+#			_update_screen_pos(_blocks[next_index], next_index)
+			_move_blocks(direction)
 
 func _update_screen_pos(block, new_index):
 	var pos = _calc_screen_position(new_index)
@@ -93,6 +99,8 @@ func _get_index(block):
 	return _blocks.find(block)
 
 func _add_random_block():
+	if $Tween.is_active():
+		yield($Tween, "tween_all_completed")
 	if _blocks.count(null) == 0:
 		print("No more movements")
 		return
@@ -107,20 +115,16 @@ func _add_random_block():
 	var block = Block.instance()
 	block.position = _calc_screen_position(rand_index)
 	block.name = "block %s-%s (%s)" % [_calc_row(rand_index), _calc_col(rand_index), rand_index]
+	block._animator = $Tween
 	block.set_type(rand_type)
 	add_child(block)
 	_blocks[rand_index] = block
 	
 	
-	
 func _init_blocks():
 	for i in range(_size * _size):
-		var block = null
-		if i % 2 == 0:
-			block = Block.instance()
-			block.position = _calc_screen_position(i)
-			block.name = "block %s-%s (%s)" % [_calc_row(i), _calc_col(i), i]
-			add_child(block)
-		_blocks.push_back(block)
+		_blocks.push_back(null)
+	_add_random_block()
+	_add_random_block()
 			
 
