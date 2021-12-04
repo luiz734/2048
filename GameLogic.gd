@@ -1,10 +1,13 @@
 extends Node2D
 
-export var _size:int = 4
+export var _size:int = 5
+export(Array, Color) var _colors: Array = []
+
 var _blocks = []
 var Block = preload("res://Block.tscn")
 const BLOCK_MARGIN = 20
 const BLOCK_SIZE = 64
+
 
 var _ignored_blocks
 
@@ -116,13 +119,20 @@ func _add_random_block():
 	block.position = _calc_screen_position(rand_index)
 	block.name = "block %s-%s (%s)" % [_calc_row(rand_index), _calc_col(rand_index), rand_index]
 	block._animator = $Tween
+	block._colors = _colors
 	block.set_type(rand_type)
 	add_child(block)
 	_blocks[rand_index] = block
+	block.set_color()
 	
 	
 func _init_blocks():
 	for i in range(_size * _size):
+		var rect_bg = ColorRect.new()
+		rect_bg.rect_size = Vector2(BLOCK_SIZE, BLOCK_SIZE)
+		rect_bg.rect_position = _calc_screen_position(i) + Vector2(BLOCK_MARGIN, BLOCK_MARGIN)
+		rect_bg.color = Color8(61, 80, 92, 255)
+		$Background.add_child(rect_bg)
 		_blocks.push_back(null)
 	_add_random_block()
 	_add_random_block()
