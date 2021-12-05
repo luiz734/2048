@@ -5,7 +5,7 @@
 [ext_resource path="res://Block.gd" type="Script" id=3]
 
 [sub_resource type="DynamicFont" id=1]
-size = 25
+size = 15
 font_data = ExtResource( 2 )
 
 [node name="Block" type="Node2D"]

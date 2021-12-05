@@ -114,6 +114,7 @@ func _add_random_block():
 	var rand_type = 2
 	if randf() < 0.25:
 		rand_type = 4
+#	var rand_type = str(type)
 	
 	var block = Block.instance()
 	block.position = _calc_screen_position(rand_index)
@@ -123,7 +124,6 @@ func _add_random_block():
 	block.set_type(rand_type)
 	add_child(block)
 	_blocks[rand_index] = block
-	block.set_color()
 	
 	
 func _init_blocks():
@@ -131,10 +131,15 @@ func _init_blocks():
 		var rect_bg = ColorRect.new()
 		rect_bg.rect_size = Vector2(BLOCK_SIZE, BLOCK_SIZE)
 		rect_bg.rect_position = _calc_screen_position(i) + Vector2(BLOCK_MARGIN, BLOCK_MARGIN)
-		rect_bg.color = Color8(61, 80, 92, 255)
+		rect_bg.color = Color8(77, 80, 64, 96)
 		$Background.add_child(rect_bg)
 		_blocks.push_back(null)
 	_add_random_block()
 	_add_random_block()
+#	_add_random_block(2)
+#	_add_random_block(16)
+#	_add_random_block(128)
+#	_add_random_block(1024)
+
 			
 

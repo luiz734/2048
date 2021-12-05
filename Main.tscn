@@ -1,21 +1,30 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://background.png" type="Texture" id=1]
 [ext_resource path="res://GameLogic.gd" type="Script" id=2]
 
 [node name="Main" type="Node2D"]
 position = Vector2( 64, 64 )
 script = ExtResource( 2 )
 _size = 4
-_colors = [ Color( 0.768627, 0.776471, 0.670588, 1 ), Color( 0.815686, 0.74902, 0.545098, 1 ), Color( 0.909804, 0.701961, 0.403922, 1 ), Color( 0.917647, 0.388235, 0.368627, 1 ), Color( 0.764706, 0.301961, 0.454902, 1 ), Color( 0.572549, 0.231373, 0.537255, 1 ), Color( 0.333333, 0.203922, 0.584314, 1 ), Color( 0.176471, 0.152941, 0.45098, 1 ), Color( 0.0666667, 0.12549, 0.266667, 1 ), Color( 0.0392157, 0.0745098, 0.156863, 1 ), Color( 0, 0, 0, 1 ) ]
+_colors = [ Color( 0.760784, 0.772549, 0.607843, 1 ), Color( 0.823529, 0.733333, 0.458824, 1 ), Color( 0.909804, 0.701961, 0.403922, 1 ), Color( 0.917647, 0.388235, 0.368627, 1 ), Color( 0.764706, 0.301961, 0.454902, 1 ), Color( 0.572549, 0.231373, 0.537255, 1 ), Color( 0.333333, 0.203922, 0.584314, 1 ), Color( 0.176471, 0.152941, 0.45098, 1 ), Color( 0.0666667, 0.12549, 0.266667, 1 ), Color( 0.0392157, 0.0745098, 0.156863, 1 ), Color( 0, 0, 0, 1 ) ]
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 336.672, 235.25 )
+scale = Vector2( 0.437591, 0.437591 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Background" type="ColorRect" parent="."]
 margin_left = -52.0
 margin_top = -52.0
 margin_right = 304.0
 margin_bottom = 304.0
-color = Color( 0.2, 0.262745, 0.301961, 1 )
+color = Color( 0.301961, 0.2, 0.25098, 0.376471 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
