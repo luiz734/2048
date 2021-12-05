@@ -35,7 +35,17 @@ func _handle_action(direction):
 	_ignored_blocks.clear()
 	
 func _move_blocks(direction):
-	for index in range(_size * _size):
+	var start = 0
+	var end = _size * _size
+	var step = 1
+	
+	var reverse_order = direction == Vector2.DOWN or direction == Vector2.RIGHT
+	if reverse_order:
+		start = _size * _size - 1
+		end = -1
+		step = -1
+	
+	for index in range(start, end, step):
 		if not _is_index_valid(index) or not _blocks[index]:
 			continue
 		var row = _calc_row(index)
@@ -110,7 +120,8 @@ func _add_random_block():
 	var rand_index = randi() % (_size * _size)
 	while _blocks[rand_index]:
 		rand_index = randi() % (_size * _size)
-	
+#	if index != -1:
+#		rand_index = index
 	var rand_type = 2
 	if randf() < 0.25:
 		rand_type = 4
