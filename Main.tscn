@@ -1,30 +1,134 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://background.png" type="Texture" id=1]
+[ext_resource path="res://ui/grid-area.png" type="Texture" id=1]
 [ext_resource path="res://GameLogic.gd" type="Script" id=2]
+[ext_resource path="res://fonts/prstart.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://ui/blue-button.png" type="Texture" id=4]
+[ext_resource path="res://ui/salmon-button.png" type="Texture" id=5]
+[ext_resource path="res://UserInput.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 36
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+font_data = ExtResource( 3 )
 
 [node name="Main" type="Node2D"]
-position = Vector2( 64, 64 )
-script = ExtResource( 2 )
-_size = 4
-_colors = [ Color( 0.760784, 0.772549, 0.607843, 1 ), Color( 0.823529, 0.733333, 0.458824, 1 ), Color( 0.909804, 0.701961, 0.403922, 1 ), Color( 0.917647, 0.388235, 0.368627, 1 ), Color( 0.764706, 0.301961, 0.454902, 1 ), Color( 0.572549, 0.231373, 0.537255, 1 ), Color( 0.333333, 0.203922, 0.584314, 1 ), Color( 0.176471, 0.152941, 0.45098, 1 ), Color( 0.0666667, 0.12549, 0.266667, 1 ), Color( 0.0392157, 0.0745098, 0.156863, 1 ), Color( 0, 0, 0, 1 ) ]
-
-[node name="Tween" type="Tween" parent="."]
-
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 336.672, 235.25 )
-scale = Vector2( 0.437591, 0.437591 )
-texture = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Background" type="ColorRect" parent="."]
-margin_left = -52.0
-margin_top = -52.0
-margin_right = 304.0
-margin_bottom = 304.0
-color = Color( 0.301961, 0.2, 0.25098, 0.376471 )
+margin_right = 800.0
+margin_bottom = 460.0
+color = Color( 0.454902, 0.741176, 0.796078, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GameArea" type="Node2D" parent="."]
+position = Vector2( 28, 25 )
+script = ExtResource( 2 )
+_size = 4
+_colors = [ Color( 0.768627, 0.882353, 0.945098, 1 ), Color( 0.788235, 0.85098, 0.890196, 1 ), Color( 0.811765, 0.819608, 0.839216, 1 ), Color( 0.831373, 0.792157, 0.784314, 1 ), Color( 0.854902, 0.760784, 0.733333, 1 ), Color( 0.878431, 0.733333, 0.678431, 1 ), Color( 0.898039, 0.701961, 0.627451, 1 ), Color( 0.921569, 0.670588, 0.572549, 1 ), Color( 0.941176, 0.643137, 0.521569, 1 ), Color( 0.964706, 0.611765, 0.466667, 1 ), Color( 0.988235, 0.584314, 0.415686, 1 ) ]
+
+[node name="Grid" type="Sprite" parent="GameArea"]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Pivot" type="Node2D" parent="GameArea"]
+position = Vector2( 52, 52 )
+
+[node name="Tween" type="Tween" parent="GameArea"]
+
+[node name="GUIArea" type="Control" parent="."]
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="GUIArea"]
+margin_left = 472.0
+margin_top = 64.0
+margin_right = 760.0
+margin_bottom = 101.0
+custom_fonts/font = SubResource( 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ButtonNewGame" type="Button" parent="GUIArea"]
+margin_left = 456.0
+margin_top = 136.0
+margin_right = 768.0
+margin_bottom = 222.0
+icon = ExtResource( 4 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUIArea/ButtonNewGame"]
+margin_right = 312.0
+margin_bottom = 86.0
+custom_fonts/font = SubResource( 2 )
+text = "New Game"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ButtonRecords" type="Button" parent="GUIArea"]
+margin_left = 456.0
+margin_top = 240.0
+margin_right = 768.0
+margin_bottom = 326.0
+icon = ExtResource( 4 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUIArea/ButtonRecords"]
+margin_right = 312.0
+margin_bottom = 86.0
+custom_fonts/font = SubResource( 2 )
+text = "Records"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ButtonExit" type="Button" parent="GUIArea"]
+margin_left = 456.0
+margin_top = 344.0
+margin_right = 768.0
+margin_bottom = 430.0
+icon = ExtResource( 5 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUIArea/ButtonExit"]
+margin_right = 312.0
+margin_bottom = 86.0
+custom_fonts/font = SubResource( 2 )
+text = "Exit"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[connection signal="pressed" from="GUIArea/ButtonNewGame" to="GameArea" method="reset_game"]
+[connection signal="pressed" from="GUIArea/ButtonNewGame" to="GUIArea" method="_on_ButtonNewGame_pressed"]
+[connection signal="pressed" from="GUIArea/ButtonExit" to="GUIArea" method="_on_ButtonExit_pressed"]

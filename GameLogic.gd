@@ -5,15 +5,16 @@ export(Array, Color) var _colors: Array = []
 
 var _blocks = []
 var Block = preload("res://Block.tscn")
-const BLOCK_MARGIN = 20
-const BLOCK_SIZE = 64
+onready var GUI = get_tree().get_root().get_node("Main/GUIArea")
+const BLOCK_MARGIN = 4
+const BLOCK_SIZE = 96
 
 
 var _ignored_blocks
 
 func _ready():
-	_init_blocks()
-	_ignored_blocks = []
+	assert(GUI, "Missing reference to GUI")
+	reset_game()
 
 func _input(event):
 	if event.is_action_pressed("ui_up"):
@@ -38,7 +39,6 @@ func _move_blocks(direction):
 	var start = 0
 	var end = _size * _size
 	var step = 1
-	
 	var reverse_order = direction == Vector2.DOWN or direction == Vector2.RIGHT
 	if reverse_order:
 		start = _size * _size - 1
@@ -123,7 +123,7 @@ func _add_random_block():
 #	if index != -1:
 #		rand_index = index
 	var rand_type = 2
-	if randf() < 0.25:
+	if randf() < 0.2:
 		rand_type = 4
 #	var rand_type = str(type)
 	
@@ -133,17 +133,22 @@ func _add_random_block():
 	block._animator = $Tween
 	block._colors = _colors
 	block.set_type(rand_type)
-	add_child(block)
+	block.connect("point_scored", GUI, "on_point_scored")
+#	block.set_size(BLOCK_SIZE)
+	$Pivot.add_child(block)
 	_blocks[rand_index] = block
+
+func reset_game():
+	for block in $Pivot.get_children():
+		block.queue_free()
 	
+	_init_blocks()
+	_ignored_blocks = []
 	
 func _init_blocks():
+	_blocks = []
 	for i in range(_size * _size):
-		var rect_bg = ColorRect.new()
-		rect_bg.rect_size = Vector2(BLOCK_SIZE, BLOCK_SIZE)
-		rect_bg.rect_position = _calc_screen_position(i) + Vector2(BLOCK_MARGIN, BLOCK_MARGIN)
-		rect_bg.color = Color8(77, 80, 64, 96)
-		$Background.add_child(rect_bg)
+		var rect_bg = Sprite.new()
 		_blocks.push_back(null)
 	_add_random_block()
 	_add_random_block()

@@ -12,11 +12,12 @@ config_version=4
 
 config/name="2048"
 run/main_scene="res://Main.tscn"
-config/icon="res://icon.png"
+config/icon="res://ui/icon.png"
 
 [display]
 
 window/size/width=800
+window/size/height=460
 
 [global]
 
