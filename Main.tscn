@@ -384,6 +384,7 @@ anchors_preset = 0
 script = ExtResource("6")
 
 [node name="Score" type="Label" parent="GUIArea"]
+texture_filter = 1
 layout_mode = 0
 offset_left = 472.0
 offset_top = 64.0
@@ -405,6 +406,7 @@ icon = ExtResource("4")
 flat = true
 
 [node name="Label" type="Label" parent="GUIArea/ButtonNewGame"]
+texture_filter = 1
 layout_mode = 0
 offset_right = 312.0
 offset_bottom = 86.0
@@ -423,6 +425,7 @@ icon = ExtResource("4")
 flat = true
 
 [node name="Label" type="Label" parent="GUIArea/ButtonRecords"]
+texture_filter = 1
 layout_mode = 0
 offset_right = 312.0
 offset_bottom = 86.0
@@ -441,6 +444,7 @@ icon = ExtResource("5")
 flat = true
 
 [node name="Label" type="Label" parent="GUIArea/ButtonExit"]
+texture_filter = 1
 layout_mode = 0
 offset_right = 312.0
 offset_bottom = 86.0

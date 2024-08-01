@@ -64,10 +64,10 @@ font_size = 20
 script = ExtResource("3")
 
 [node name="Background" type="Sprite2D" parent="."]
-self_modulate = Color(0.768627, 0.882353, 0.945098, 1)
 texture = ExtResource("4")
 
 [node name="Label" type="Label" parent="."]
+texture_filter = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -78,7 +78,7 @@ offset_top = -15.0
 offset_right = 48.0
 offset_bottom = 16.0
 theme_override_fonts/font = SubResource("1")
-text = "2"
+text = "2048"
 label_settings = SubResource("LabelSettings_j5qmj")
 horizontal_alignment = 1
 vertical_alignment = 1
