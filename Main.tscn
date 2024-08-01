@@ -363,13 +363,13 @@ cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 800.0
 offset_bottom = 460.0
-color = Color(0.454902, 0.741176, 0.796078, 1)
+color = Color(0.0117647, 0.109804, 0.160784, 1)
 
 [node name="GameArea" type="Node2D" parent="."]
 position = Vector2(28, 25)
 script = ExtResource("2")
 _size = 4
-_colors = [Color(0.768627, 0.882353, 0.945098, 1), Color(0.788235, 0.85098, 0.890196, 1), Color(0.811765, 0.819608, 0.839216, 1), Color(0.831373, 0.792157, 0.784314, 1), Color(0.854902, 0.760784, 0.733333, 1), Color(0.878431, 0.733333, 0.678431, 1), Color(0.898039, 0.701961, 0.627451, 1), Color(0.921569, 0.670588, 0.572549, 1), Color(0.941176, 0.643137, 0.521569, 1), Color(0.964706, 0.611765, 0.466667, 1), Color(0.988235, 0.584314, 0.415686, 1)]
+_colors = [Color(0.72549, 0.87451, 0.890196, 1), Color(0.290196, 0.615686, 0.619608, 1), Color(0.00392157, 0.470588, 0.498039, 1), Color(0.0035, 0.332675, 0.35, 1), Color(0.67, 0.1876, 0.36448, 1), Color(0.56, 0.14, 0.294, 1), Color(0.47, 0.0752, 0.21996, 1), Color(0.61, 0.0915, 0.445808, 1), Color(0.53, 0.1113, 0.397412, 1), Color(0.73, 0.1533, 0.182135, 1), Color(0, 0, 0, 1)]
 
 [node name="Grid" type="Sprite2D" parent="GameArea"]
 texture = ExtResource("1")
